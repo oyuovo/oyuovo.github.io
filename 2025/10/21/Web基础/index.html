@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Web基础 | Blog of Sof</title><meta name="author" content="Sof"><meta name="copyright" content="Sof"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="HTTP协议 请求协议 请求数据格式 &#x3D;&#x3D;请求行&#x3D;&#x3D; (请求方式、资源路径、协议) get方式：路径中可以携带参数，请求大小在浏览器当中是有限制的 post方式：请求参数在请求体当中，请求大小没有限制   &#x3D;&#x3D;请求头&#x3D;&#x3D;(key:value) Host：请求的主机名、eg：localhost:8080 User-Age">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Web基础 | Blog of Sof</title><meta name="author" content="Sof"><meta name="copyright" content="Sof"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="HTTP协议 请求协议 请求数据格式 请求行 (请求方式、资源路径、协议) get方式：路径中可以携带参数，请求大小在浏览器当中是有限制的 post方式：请求参数在请求体当中，请求大小没有限制   请求头(key:value) Host：请求的主机名、eg：localhost:8080 User-Agent：浏览器版本 Accept：表示浏览器能接受的资源类型，如text&#x2F;*,image&#x2F;*或者*">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web基础">
 <meta property="og:url" content="https://oyuovo.github.io.git/2025/10/21/Web%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Blog of Sof">
-<meta property="og:description" content="HTTP协议 请求协议 请求数据格式 &#x3D;&#x3D;请求行&#x3D;&#x3D; (请求方式、资源路径、协议) get方式：路径中可以携带参数，请求大小在浏览器当中是有限制的 post方式：请求参数在请求体当中，请求大小没有限制   &#x3D;&#x3D;请求头&#x3D;&#x3D;(key:value) Host：请求的主机名、eg：localhost:8080 User-Age">
+<meta property="og:description" content="HTTP协议 请求协议 请求数据格式 请求行 (请求方式、资源路径、协议) get方式：路径中可以携带参数，请求大小在浏览器当中是有限制的 post方式：请求参数在请求体当中，请求大小没有限制   请求头(key:value) Host：请求的主机名、eg：localhost:8080 User-Agent：浏览器版本 Accept：表示浏览器能接受的资源类型，如text&#x2F;*,image&#x2F;*或者*">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://oyuovo.github.io.git/img/sailinna.jpg">
 <meta property="article:published_time" content="2025-10-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-21T05:10:12.460Z">
+<meta property="article:modified_time" content="2025-10-21T09:26:38.772Z">
 <meta property="article:author" content="Sof">
 <meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   "url": "https://oyuovo.github.io.git/2025/10/21/Web%E5%9F%BA%E7%A1%80/",
   "image": "https://oyuovo.github.io.git/img/sailinna.jpg",
   "datePublished": "2025-10-21T00:00:00.000Z",
-  "dateModified": "2025-10-21T05:10:12.460Z",
+  "dateModified": "2025-10-21T09:26:38.772Z",
   "author": [
     {
       "@type": "Person",
@@ -159,15 +159,15 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="web_bg" style="background-image: url(/img/zhanshuang.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/sailinna.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/zhanshuang.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/fish_logo.png" alt="Logo"><span class="site-name">Blog of Sof</span></a><a class="nav-page-title" href="/"><span class="site-name">Web基础</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Web基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-21T00:00:00.000Z" title="发表于 2025-10-21 08:00:00">2025-10-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-21T05:10:12.460Z" title="更新于 2025-10-21 13:10:12">2025-10-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaWeb/">JavaWeb</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h1><ul>
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="web_bg" style="background-image: url(/img/zhanshuang.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/sailinna.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/zhanshuang.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/fish_logo.png" alt="Logo"><span class="site-name">Blog of Sof</span></a><a class="nav-page-title" href="/"><span class="site-name">Web基础</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Web基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-21T00:00:00.000Z" title="发表于 2025-10-21 08:00:00">2025-10-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-21T09:26:38.772Z" title="更新于 2025-10-21 17:26:38">2025-10-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaWeb/">JavaWeb</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h1><ul>
 <li>请求协议<ul>
 <li>请求数据格式<ul>
-<li>&#x3D;&#x3D;请求行&#x3D;&#x3D; (请求方式、资源路径、协议)<ul>
+<li><mark>请求行</mark> (请求方式、资源路径、协议)<ul>
 <li>get方式：路径中可以携带参数，请求大小在浏览器当中是有限制的</li>
 <li>post方式：请求参数在请求体当中，请求大小没有限制</li>
 </ul>
 </li>
-<li>&#x3D;&#x3D;请求头&#x3D;&#x3D;(key:value)<ul>
+<li><mark>请求头</mark>(key:value)<ul>
 <li>Host：请求的主机名、<code>eg：localhost:8080</code></li>
 <li>User-Agent：浏览器版本</li>
 <li>Accept：表示浏览器能接受的资源类型，如<code>text/*,image/*或者*/*表示所有</code></li>
@@ -177,15 +177,15 @@
 <li>Content-Length：请求主题的大小(单位：字节)</li>
 </ul>
 </li>
-<li>&#x3D;&#x3D;请求体&#x3D;&#x3D;：POST请求，存放请求参数</li>
+<li><mark>请求体</mark>：POST请求，存放请求参数</li>
 </ul>
 </li>
 <li>请求数据的获取(调用HttpServletRequeest)–通常AI<ul>
-<li>获取请求方式&#x3D;&#x3D;String method &#x3D; request.getMethod();&#x2F;&#x2F;GET&#x3D;&#x3D;&#96;</li>
-<li>获取请求的url地址&#x3D;&#x3D;<code> String url = request.getRequestURL().toString();//获取完整地址  String uri = request.getRequestURI();//获取资源路径地址</code>&#x3D;&#x3D;</li>
-<li>获取请求的协议&#x3D;&#x3D;<code>String protocol = request.getProtocol();//HTTP/1.1</code>&#x3D;&#x3D;</li>
-<li>获取请求参数&#x3D;&#x3D;<code>String n=request.getPArameter();</code>&#x3D;&#x3D;</li>
-<li>获取请求头 -Accept（示例）&#x3D;&#x3D;<code>String accpet = request.getHeader(&quot;Accept&quot;)</code>&#x3D;&#x3D;</li>
+<li>获取请求方式<code>String method = request.getMethod();//GET</code></li>
+<li>获取请求的url地址<code>String url = request.getRequestURL().toString();//获取完整地址  String uri = request.getRequestURI();//获取资源路径地址</code></li>
+<li>获取请求的协议<code>String protocol = request.getProtocol();//HTTP/1.1</code></li>
+<li>获取请求参数<code>String n=request.getPArameter();</code></li>
+<li>获取请求头 -Accept（示例）<code>String accpet = request.getHeader(&quot;Accept&quot;)</code></li>
 </ul>
 </li>
 </ul>
