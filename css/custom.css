@@ -25,7 +25,7 @@
     background: transparent !important;
 }
 
-/* 侧边栏个人信息卡片动态渐变色 */
+/* 侧边栏个人信息卡片动态渐变色
 #aside-content>.card-widget.card-info {
     background: linear-gradient(-45deg,
             #e8d8b9,
@@ -33,4 +33,53 @@
             #a3e9eb,
             #bdbdf0,
             #eec1ea);
+} */
+/* 个人信息卡片背景图 */
+[data-theme="light"] #aside-content>.card-widget.card-info {
+    background-image: url(https://pic4.zhimg.com/v2-c34c61a90095abb8713de9d1dca7ec7b_r.jpg);
+    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-size: 100%;
+}
+
+[data-theme="dark"] #aside-content>.card-widget.card-info {
+    background-image: url(https://pic4.zhimg.com/v2-c34c61a90095abb8713de9d1dca7ec7b_r.jpg);
+    background-repeat: no-repeat;
+}
+
+/* 头像呼吸灯 */
+[data-theme="light"] .avatar-img {
+    animation: huxi_light 4s ease-in-out infinite;
+}
+
+[data-theme="dark"] .avatar-img {
+    animation: huxi_dark 4s ease-in-out infinite;
+}
+
+@keyframes huxi_light {
+    0% {
+        box-shadow: 0px 0px 1px 1px #df8cda;
+    }
+
+    50% {
+        box-shadow: 0px 0px 5px 5px #ca4fca;
+    }
+
+    100% {
+        box-shadow: 0px 0px 1px 1px #f557cd;
+    }
+}
+
+@keyframes huxi_dark {
+    0% {
+        box-shadow: 0px 0px 1px 1px #39c5bb;
+    }
+
+    50% {
+        box-shadow: 0px 0px 5px 5px #39c5bb;
+    }
+
+    100% {
+        box-shadow: 0px 0px 1px 1px #39c5bb;
+    }
 }
