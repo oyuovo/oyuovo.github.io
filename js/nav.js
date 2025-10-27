@@ -8,3 +8,6 @@ function tonav() {
         var scroll = $(window).scrollTop();
         if (scroll > position) {
             document.getElementById("name-container").setAttribute("style", "");
+        }
+    })
+}
