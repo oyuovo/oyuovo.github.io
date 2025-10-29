@@ -191,7 +191,27 @@ nav#nav.show {
     align-items: center !important;
 }
 
-/* 隐藏图标 */
+/* 隐藏博客顶部文字 */
 span#blog-info {
     display: none !important;
+}
+
+/* 标题彩色显示 */
+[data-theme="light"] h1#site-title {
+    background: linear-gradient(90deg, #8fe7bb, #6aecd2, #21edc5, #2b79e0, #0026fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+[data-theme="dark"] h1#site-title {
+    background: linear-gradient(90deg, #8fe7bb, #6aecd2, #21edc5, #2b79e0, #0026fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+/* 首页文章推荐背景透明 */
+div.recent-post-item {
+    background: transparent !important;
 }
