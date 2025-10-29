@@ -184,3 +184,10 @@ div#archive {
 }
 
 /* ----------------------------------------------- */
+/* 导航栏居中 */
+/* 假设导航栏的容器类名为 .nav-container */
+.nav-container {
+    display: flex;
+    justify-content: center;
+    /* 水平居中 */
+}
