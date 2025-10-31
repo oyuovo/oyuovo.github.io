@@ -36,15 +36,11 @@
 } */
 /* 个人信息卡片背景图 */
 [data-theme="light"] #aside-content>.card-widget.card-info {
-    background-image: url(https://pic4.zhimg.com/v2-c34c61a90095abb8713de9d1dca7ec7b_r.jpg);
-    background-repeat: no-repeat;
-    background-attachment: inherit;
-    background-size: 100%;
+    background: transparent !important;
 }
 
 [data-theme="dark"] #aside-content>.card-widget.card-info {
-    background-image: url(https://pic4.zhimg.com/v2-c34c61a90095abb8713de9d1dca7ec7b_r.jpg);
-    background-repeat: no-repeat;
+    background: transparent !important;
 }
 
 /* 头像呼吸灯 */
@@ -262,4 +258,13 @@ div.recent-post-item {
         box-sizing: border-box;
     }
 
+}
+
+/* 白天黑夜头像切换 */
+[data-theme="light"] div.avatar-img {
+    content: url(https://img.wjwj.top/2025/10/31/320f3f49adaae98224e51d9cb67e715f.webp) !important;
+}
+
+[data-theme="dark"] div.avatar-img {
+    content: url(https://img.wjwj.top/2025/10/31/0643ca30556495e126d7f7dfc4cfa12e.webp) !important;
 }
