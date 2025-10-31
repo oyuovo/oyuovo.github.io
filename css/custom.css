@@ -261,10 +261,10 @@ div.recent-post-item {
 }
 
 /* 白天黑夜头像切换 */
-[data-theme="light"] div.avatar-img {
+[data-theme="light"] .avatar-img {
     content: url(https://img.wjwj.top/2025/10/31/320f3f49adaae98224e51d9cb67e715f.webp) !important;
 }
 
-[data-theme="dark"] div.avatar-img {
+[data-theme="dark"] .avatar-img {
     content: url(https://img.wjwj.top/2025/10/31/0643ca30556495e126d7f7dfc4cfa12e.webp) !important;
 }
