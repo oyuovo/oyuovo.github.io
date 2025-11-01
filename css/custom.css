@@ -25,15 +25,6 @@
     background: transparent !important;
 }
 
-/* 侧边栏个人信息卡片动态渐变色
-#aside-content>.card-widget.card-info {
-    background: linear-gradient(-45deg,
-            #e8d8b9,
-            #eccec5,
-            #a3e9eb,
-            #bdbdf0,
-            #eec1ea);
-} */
 /* 个人信息卡片背景图 */
 [data-theme="light"] #aside-content>.card-widget.card-info {
     background: transparent !important;
@@ -132,7 +123,6 @@ div#archive {
     background: var(--trans-dark);
 }
 
-
 /* 夜间模式页脚页头遮罩透明 */
 [data-theme="dark"] #footer::before {
     background: transparent !important;
@@ -214,7 +204,6 @@ div.recent-post-item {
 
 /* ----------------------------------------------------------- */
 /* Twikoo 评论样式 */
-
 .tk-input .el-textarea__inner {
     min-height: 120px !important;
 }
@@ -257,7 +246,6 @@ div.recent-post-item {
         max-width: calc(50% - 10px);
         box-sizing: border-box;
     }
-
 }
 
 /* 白天黑夜头像切换 */
