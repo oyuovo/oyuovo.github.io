@@ -63,16 +63,17 @@ span.categoryBar-list-count {
   display: block !important;
   color: #fff !important;
   font-size: 20px !important;
+}
 
-  span.categoryBar-list-count::before {
-    content: '┏ (゜ω゜)=👉' !important;
-    padding-right: 15px !important;
-    display: inline-block;
-    font-weight: 600;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-  }
+span.categoryBar-list-count::before {
+  content: '┏ (゜ω゜)=👉' !important;
+  padding-right: 15px !important;
+  display: inline-block;
+  font-weight: 600;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
 }
 
 span.categoryBar-list-descr {
