@@ -1950,7 +1950,7 @@ h5,
 h6 {
   position: relative;
   margin: 20px 0 14px;
-  color: var(--text-highlight-color);
+  color: rgb(255, 80, 165);
   font-weight: bold;
 }
 
