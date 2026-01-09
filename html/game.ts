@@ -10,8 +10,8 @@ class DinoGame {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private dinoX: number = 50;
-    private dinoY: number = 440; // 恢复为440（画布高度500 - 恐龙高度60 = 440）
-    private dinoWidth: number = 50;
+    private dinoY: number = 440;
+    private dinoWidth: number = 30;
     private dinoHeight: number = 60;
     private dinoJumping: boolean = false;
     private jumpVelocity: number = 0;
@@ -104,19 +104,35 @@ class DinoGame {
     }
 
     private generateObstacle(): void {
-        // 障碍物生成概率随时间增加
+        // 检查最近的障碍物距离，避免过密生成
+        const minDistance = 200; // 设置最小距离，确保可以跳跃通过
+        
+        // 如果最近有障碍物，不生成新障碍物
+        for (const obstacle of this.obstacles) {
+            if (obstacle.x > this.canvas.width - minDistance) {
+                return; // 如果最近的障碍物距离不够，不生成新障碍物
+            }
+        }
+        
+        // 障碍物生成概率随时间增加，但受最小间距限制
         const shouldGenerate = Math.random() < 0.005 * (this.gameSpeed / 5);
 
         if (shouldGenerate) {
-            // 随机生成障碍物高度
-            const height = 50 + Math.random() * 50;
+            // 随机选择仙人掌图像
+            const cactusImages = ['xianren1.png', 'xianren2_1.png'];
+            const selectedImage = new Image();
+            selectedImage.src = cactusImages[Math.floor(Math.random() * cactusImages.length)];
+
+            // 随机生成障碍物高度，限制在合理范围内
+            const minHeight = 30;
+            const maxHeight = 60; // 限制最大高度，确保可以跳跃通过
+            const height = minHeight + Math.random() * (maxHeight - minHeight);
             const width = 25 + Math.random() * 15;
 
-            // 将障碍物放在画布底部，Y坐标为画布高度减去障碍物高度
-            // 确保与恐龙在同一水平线 (groundY)
+            // 将障碍物放在画布底部
             this.obstacles.push({
                 x: this.canvas.width,
-                y: this.groundY + (60 - height), // 调整Y坐标使其底部对齐到地面线
+                y: this.canvas.height - height,  // 放在画布底部
                 width: width,
                 height: height,
                 speed: this.gameSpeed
@@ -143,21 +159,21 @@ class DinoGame {
     }
 
     private checkCollisions(): void {
-        // 计算恐龙碰撞箱（考虑到图像的实际位置）
+        // 计算恐龙碰撞箱，减小碰撞箱尺寸使游戏更容易
         const dinoRect = {
-            x: this.dinoX,
-            y: this.dinoY,
-            width: this.dinoWidth,
-            height: this.dinoHeight
+            x: this.dinoX + 5,        // 左侧缩小5像素
+            y: this.dinoY + 10,       // 顶部缩小10像素
+            width: this.dinoWidth - 10,   // 宽度减少10像素
+            height: this.dinoHeight - 15  // 高度减少15像素
         };
 
         for (const obstacle of this.obstacles) {
-            // 计算障碍物碰撞箱
+            // 计算障碍物碰撞箱，减小碰撞箱尺寸使游戏更容易
             const obstacleRect = {
-                x: obstacle.x,
-                y: obstacle.y,  // 障碍物顶部的Y坐标
-                width: obstacle.width,
-                height: obstacle.height
+                x: obstacle.x + 3,        // 左侧缩小3像素
+                y: obstacle.y + 5,        // 顶部缩小5像素
+                width: obstacle.width - 6,  // 宽度减少6像素
+                height: obstacle.height - 8 // 高度减少8像素
             };
 
             if (
