@@ -11,7 +11,7 @@ class DinoGame {
     private ctx: CanvasRenderingContext2D;
     private dinoX: number = 50;
     private dinoY: number = 440;
-    private dinoWidth: number = 30;
+    private dinoWidth: number = 40;  // 增加恐龙的显示宽度
     private dinoHeight: number = 60;
     private dinoJumping: boolean = false;
     private jumpVelocity: number = 0;
@@ -27,8 +27,13 @@ class DinoGame {
     private gameOverElement: HTMLElement;
     private restartBtn: HTMLButtonElement;
 
-    // 添加图像资源
-    private dinoImg: HTMLImageElement;
+    // 修改图像资源，支持恐龙动画
+    private dinoImgs: HTMLImageElement[] = []; // 存储所有恐龙帧的数组
+    private currentDinoFrame: number = 0;     // 当前显示的帧
+    private frameCounter: number = 0;         // 动画帧计数器
+    private totalFrames: number = 5;          // 总共有多少帧动画
+    private framesPerAnimation: number = 10;  // 每个动画帧持续多少帧
+    
     private obstacleImg: HTMLImageElement;
 
     constructor() {
@@ -38,9 +43,8 @@ class DinoGame {
         this.gameOverElement = document.getElementById('gameOver')!;
         this.restartBtn = document.getElementById('restartBtn') as HTMLButtonElement;
 
-        // 初始化图像资源
-        this.dinoImg = new Image();
-        this.dinoImg.src = 'player.png';
+        // 初始化恐龙动画帧
+        this.loadDinoFrames();
 
         this.obstacleImg = new Image();
         this.obstacleImg.src = 'xianren1.png';
@@ -49,11 +53,34 @@ class DinoGame {
 
         // 等待图像加载完成后再开始游戏循环
         Promise.all([
-            this.imageLoaded(this.dinoImg),
+            this.allImagesLoaded(this.dinoImgs),
             this.imageLoaded(this.obstacleImg)
         ]).then(() => {
             this.gameLoop();
         });
+    }
+
+    private loadDinoFrames(): void {
+        // 定义恐龙动画帧的图片路径
+        const dinoFramePaths = [
+            'konglong a.png',
+            'konglong a_1.png', 
+            'konglong a_2.png',
+            'konglong a_3.png',
+            'konglong a_4.png'
+        ];
+        
+        // 为每张图片创建Image对象并存储
+        for (const path of dinoFramePaths) {
+            const img = new Image();
+            img.src = path;
+            this.dinoImgs.push(img);
+        }
+    }
+
+    private allImagesLoaded(images: HTMLImageElement[]): Promise<void[]> {
+        const promises = images.map(img => this.imageLoaded(img));
+        return Promise.all(promises);
     }
 
     private imageLoaded(img: HTMLImageElement): Promise<void> {
@@ -72,8 +99,8 @@ class DinoGame {
                 this.jump();
             }
 
-            // 如果游戏结束，按空格重新开始
-            if (e.code === 'Space' && !this.gameRunning) {
+            // 如果游戏结束，按回车重新开始（按照规范使用回车键）
+            if (e.code === 'Enter' && !this.gameRunning) {
                 this.restart();
             }
         });
@@ -99,6 +126,13 @@ class DinoGame {
             if (this.dinoY >= this.groundY) {
                 this.dinoY = this.groundY;
                 this.dinoJumping = false;
+            }
+        } else {
+            // 更新动画帧，只在恐龙没有跳跃时播放动画
+            this.frameCounter++;
+            if (this.frameCounter >= this.framesPerAnimation) {
+                this.currentDinoFrame = (this.currentDinoFrame + 1) % this.totalFrames;
+                this.frameCounter = 0;
             }
         }
     }
@@ -163,7 +197,7 @@ class DinoGame {
         const dinoRect = {
             x: this.dinoX + 5,        // 左侧缩小5像素
             y: this.dinoY + 10,       // 顶部缩小10像素
-            width: this.dinoWidth - 10,   // 宽度减少10像素
+            width: this.dinoWidth - 10,   // 宽度减少10像素 (原来是30-10=20，现在是40-10=30)
             height: this.dinoHeight - 15  // 高度减少15像素
         };
 
@@ -204,8 +238,24 @@ class DinoGame {
     }
 
     private drawDino(): void {
-        // 绘制小恐龙图像
-        this.ctx.drawImage(this.dinoImg, this.dinoX, this.dinoY, this.dinoWidth, this.dinoHeight);
+        // 绘制小恐龙图像，根据当前帧绘制对应图片
+        if (this.dinoImgs.length > 0) {
+            // 根据跳跃状态决定是否播放动画
+            let frameIndex = this.currentDinoFrame;
+            
+            // 如果在跳跃，使用第一帧（站立姿态）
+            if (this.dinoJumping) {
+                frameIndex = 0;
+            }
+            
+            this.ctx.drawImage(
+                this.dinoImgs[frameIndex], 
+                this.dinoX, 
+                this.dinoY, 
+                this.dinoWidth,  // 使用新的宽度
+                this.dinoHeight
+            );
+        }
     }
 
     private drawObstacles(): void {
