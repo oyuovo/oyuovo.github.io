@@ -7,7 +7,7 @@ class DinoGame {
         this.dinoHeight = 60;
         this.dinoJumping = false;
         this.jumpVelocity = 0;
-        this.gravity = 1.2;
+        this.gravity = 0.8; // 进一步降低重力以减慢下落速度
         this.groundY = 440; // 相应调整
         this.obstacles = [];
         this.score = 0;
@@ -85,7 +85,7 @@ class DinoGame {
     jump() {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -20; // 减小初速度，配合减小的重力，形成更可控的跳跃弧线
+            this.jumpVelocity = -12; // 进一步降低跳跃初速度，减慢上升速度
         }
     }
     updateDino() {
@@ -96,6 +96,7 @@ class DinoGame {
             if (this.dinoY >= this.groundY) {
                 this.dinoY = this.groundY;
                 this.dinoJumping = false;
+                this.jumpVelocity = 0; // 重置速度
             }
         }
         else {
@@ -109,33 +110,70 @@ class DinoGame {
     }
     generateObstacle() {
         // 检查最近的障碍物距离，避免过密生成
-        const minDistance = 200; // 设置最小距离，确保可以跳跃通过
+        const minDistance = 350; // 调整最小距离以平衡游戏难度
         // 如果最近有障碍物，不生成新障碍物
         for (const obstacle of this.obstacles) {
             if (obstacle.x > this.canvas.width - minDistance) {
                 return; // 如果最近的障碍物距离不够，不生成新障碍物
             }
         }
-        // 障碍物生成概率随时间增加，但受最小间距限制
-        const shouldGenerate = Math.random() < 0.005 * (this.gameSpeed / 5);
-        if (shouldGenerate) {
-            // 随机选择仙人掌图像
-            const cactusImages = ['xianren1.png', 'xianren2_1.png'];
-            const selectedImage = new Image();
-            selectedImage.src = cactusImages[Math.floor(Math.random() * cactusImages.length)];
-            // 随机生成障碍物高度，限制在合理范围内
-            const minHeight = 30;
-            const maxHeight = 60; // 限制最大高度，确保可以跳跃通过
+        // 决定生成单个障碍物还是双重障碍物
+        const isMultiple = Math.random() < 0.35; // 35% 概率生成双重障碍物，65% 概率生成单个障碍物
+        if (isMultiple) {
+            // 生成双重障碍物
+            const numObstacles = 2; // 固定为两个，确保游戏可玩性
+            const gapBetweenObstacles = 25 + Math.random() * 15; // 障碍物之间的间隔，稍微增大以确保可通过
+            const minHeight = 25;
+            const maxHeight = 45; // 降低最大高度，更容易通过
             const height = minHeight + Math.random() * (maxHeight - minHeight);
-            const width = 25 + Math.random() * 15;
-            // 将障碍物放在画布底部
-            this.obstacles.push({
-                x: this.canvas.width,
-                y: this.canvas.height - height, // 放在画布底部
-                width: width,
-                height: height,
-                speed: this.gameSpeed
-            });
+            const width = 20 + Math.random() * 10; // 障碍物宽度
+            // 生成第一个障碍物
+            let currentX = this.canvas.width;
+            for (let i = 0; i < numObstacles; i++) {
+                // 为了让两个障碍物略有不同，稍微调整高度
+                let adjustedHeight = height;
+                if (i === 0) {
+                    // 第一个障碍物高度稍微随机变化
+                    adjustedHeight = minHeight + Math.random() * (height - minHeight);
+                }
+                else {
+                    // 第二个障碍物也可能有略微不同的高度
+                    adjustedHeight = minHeight + Math.random() * (height - minHeight);
+                }
+                const obstacle = {
+                    x: currentX,
+                    y: this.canvas.height - adjustedHeight,
+                    width: width,
+                    height: adjustedHeight,
+                    speed: this.gameSpeed
+                };
+                this.obstacles.push(obstacle);
+                // 更新下一个障碍物的位置
+                currentX += width + gapBetweenObstacles;
+            }
+        }
+        else {
+            // 生成单个障碍物
+            const shouldGenerate = Math.random() < 0.02; // 使用固定的生成概率，不需要再乘以gameSpeed因子
+            if (shouldGenerate) {
+                // 随机选择仙人掌图像
+                const cactusImages = ['xianren1.png', 'xianren2_1.png'];
+                const selectedImage = new Image();
+                selectedImage.src = cactusImages[Math.floor(Math.random() * cactusImages.length)];
+                // 随机生成障碍物高度，限制在合理范围内
+                const minHeight = 25;
+                const maxHeight = 50; // 限制最大高度，确保可以跳跃通过
+                const height = minHeight + Math.random() * (maxHeight - minHeight);
+                const width = 25 + Math.random() * 15;
+                // 将障碍物放在画布底部
+                this.obstacles.push({
+                    x: this.canvas.width,
+                    y: this.canvas.height - height, // 放在画布底部
+                    width: width,
+                    height: height,
+                    speed: this.gameSpeed
+                });
+            }
         }
     }
     updateObstacles() {
