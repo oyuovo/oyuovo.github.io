@@ -3,9 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>小恐龙游戏</title>
     <link rel="stylesheet" href="styles.css">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="小恐龙游戏">
 </head>
 
 <body>
@@ -14,7 +16,7 @@
         <div class="game-over" id="gameOver" style="display: none;">游戏结束!</div>
         <canvas id="gameCanvas" width="1000" height="500"></canvas>
         <div class="instructions">
-            <p>按空格键或向上箭头键跳跃</p>
+            <p>按空格键或向上箭头键跳跃<br><strong>在手机上点击屏幕任意位置跳跃</strong></p>
             <button id="restartBtn">重新开始</button>
         </div>
     </div>

@@ -78,7 +78,25 @@ class DinoGame {
                 this.restart();
             }
         });
+        // 添加移动端触摸事件支持
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // 阻止默认的触摸行为
+            if (!this.dinoJumping) {
+                this.jump();
+            }
+        });
+        // 添加移动端点击事件支持（对于非触摸设备的备用方案）
+        this.canvas.addEventListener('click', (e) => {
+            if (!this.dinoJumping) {
+                this.jump();
+            }
+        });
         this.restartBtn.addEventListener('click', () => {
+            this.restart();
+        });
+        // 添加对重启按钮的触摸支持
+        this.restartBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
             this.restart();
         });
     }
@@ -160,6 +178,7 @@ class DinoGame {
                 const cactusImages = ['xianren1.png', 'xianren2_1.png'];
                 const selectedImage = new Image();
                 selectedImage.src = cactusImages[Math.floor(Math.random() * cactusImages.length)];
+                // 随机生成障碍物高度，限制在合理范围内
                 // 随机生成障碍物高度，限制在合理范围内
                 const minHeight = 25;
                 const maxHeight = 50; // 限制最大高度，确保可以跳跃通过
