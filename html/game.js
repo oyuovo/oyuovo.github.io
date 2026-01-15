@@ -7,7 +7,7 @@ class DinoGame {
         this.dinoHeight = 60;
         this.dinoJumping = false;
         this.jumpVelocity = 0;
-        this.gravity = 0.8; // 进一步降低重力以减慢下落速度
+        this.gravity = 0.6; // 进一步降低重力以增加滞空时间
         this.groundY = 440; // 相应调整
         this.obstacles = [];
         this.score = 0;
@@ -107,7 +107,7 @@ class DinoGame {
     jump() {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -12; // 进一步降低跳跃初速度，减慢上升速度
+            this.jumpVelocity = -10; // 调整跳跃初速度，增加滞空时间
         }
     }
     updateDino() {
@@ -139,71 +139,82 @@ class DinoGame {
                 return; // 如果最近的障碍物距离不够，不生成新障碍物
             }
         }
-        // 增加单个障碍物的生成概率，现在约80%生成单个障碍物，20%生成双重障碍物
-        const isMultiple = Math.random() < 0.2; // 20% 概率生成双重障碍物，80% 概率生成单个障碍物
-        if (isMultiple) {
+        // 按照1:1:1的比例生成单、双、三重障碍物
+        const obstacleType = Math.random();
+        const singleProbability = 1 / 3;
+        const doubleProbability = 2 / 3;
+        if (obstacleType < singleProbability) {
+            // 生成单个障碍物
+            this.generateSingleObstacle();
+        }
+        else if (obstacleType < doubleProbability) {
             // 生成双重障碍物
-            const numObstacles = 2; // 固定为两个，确保游戏可玩性
-            const gapBetweenObstacles = 0; // 设置为0，让障碍物完全贴在一起
-            const minHeight = 25;
-            const maxHeight = 45; // 降低最大高度，更容易通过
-            const height = minHeight + Math.random() * (maxHeight - minHeight);
-            const width = 20 + Math.random() * 10; // 障碍物宽度
-            // 生成第一个障碍物
-            let currentX = this.canvas.width;
-            const groupId = Date.now(); // 使用时间戳作为唯一ID
-            for (let i = 0; i < numObstacles; i++) {
-                // 为了让两个障碍物略有不同，稍微调整高度
-                let adjustedHeight = height;
-                if (i === 0) {
-                    // 第一个障碍物高度稍微随机变化
-                    adjustedHeight = minHeight + Math.random() * (height - minHeight);
-                }
-                else {
-                    // 第二个障碍物也可能有略微不同的高度
-                    adjustedHeight = minHeight + Math.random() * (height - minHeight);
-                }
-                // 为每个障碍物单独随机选择图像类型 (0 for xianren1, 1 for xianren2_1)
-                const imageType = Math.floor(Math.random() * 2);
-                const obstacle = {
-                    x: currentX,
-                    y: this.canvas.height - adjustedHeight,
-                    width: width,
-                    height: adjustedHeight,
-                    speed: this.gameSpeed,
-                    isPartOfMultiple: true,
-                    groupId: groupId,
-                    imageType: imageType
-                };
-                this.obstacles.push(obstacle);
-                // 更新下一个障碍物的位置
-                currentX += width + gapBetweenObstacles;
-            }
+            this.generateMultipleObstacles(2);
         }
         else {
-            // 生成单个障碍物
-            const shouldGenerate = Math.random() < 0.04; // 提高单个障碍物生成概率，从0.02提升到0.04
-            if (shouldGenerate) {
-                // 对于单个障碍物，随机选择图像
-                const imageType = Math.floor(Math.random() * 2);
-                const selectedImage = new Image();
-                selectedImage.src = imageType === 1 ? 'xianren2_1.png' : 'xianren1.png';
-                // 随机生成障碍物高度，限制在合理范围内
-                const minHeight = 25;
-                const maxHeight = 50; // 限制最大高度，确保可以跳跃通过
-                const height = minHeight + Math.random() * (maxHeight - minHeight);
-                const width = 25 + Math.random() * 15;
-                // 将障碍物放在画布底部
-                this.obstacles.push({
-                    x: this.canvas.width,
-                    y: this.canvas.height - height, // 放在画布底部
-                    width: width,
-                    height: height,
-                    speed: this.gameSpeed,
-                    isPartOfMultiple: false,
-                    imageType: imageType
-                });
+            // 生成三重障碍物
+            this.generateMultipleObstacles(3);
+        }
+    }
+    generateSingleObstacle() {
+        const shouldGenerate = Math.random() < 0.04; // 单个障碍物生成概率
+        if (shouldGenerate) {
+            // 对于单个障碍物，随机选择图像
+            const imageType = Math.floor(Math.random() * 2);
+            const selectedImage = new Image();
+            selectedImage.src = imageType === 1 ? 'xianren2_1.png' : 'xianren1.png';
+            // 随机生成障碍物高度，限制在合理范围内
+            const minHeight = 25;
+            const maxHeight = 50; // 限制最大高度，确保可以跳跃通过
+            const height = minHeight + Math.random() * (maxHeight - minHeight);
+            const width = 25 + Math.random() * 15;
+            // 将障碍物放在画布底部
+            this.obstacles.push({
+                x: this.canvas.width,
+                y: this.canvas.height - height, // 放在画布底部
+                width: width,
+                height: height,
+                speed: this.gameSpeed,
+                isPartOfMultiple: false,
+                imageType: imageType
+            });
+        }
+    }
+    generateMultipleObstacles(numObstacles) {
+        const gapBetweenObstacles = 0; // 设置为0，让障碍物完全贴在一起
+        const minHeight = 25;
+        const maxHeight = 45; // 降低最大高度，更容易通过
+        const height = minHeight + Math.random() * (maxHeight - minHeight);
+        const width = 20 + Math.random() * 10; // 障碍物宽度
+        // 生成第一个障碍物
+        let currentX = this.canvas.width;
+        const groupId = Date.now(); // 使用时间戳作为唯一ID
+        for (let i = 0; i < numObstacles; i++) {
+            // 为了让多个障碍物略有不同，稍微调整高度
+            let adjustedHeight = height;
+            if (i === 0) {
+                // 第一个障碍物高度稍微随机变化
+                adjustedHeight = minHeight + Math.random() * (height - minHeight);
             }
+            else {
+                // 后续障碍物也可能有略微不同的高度
+                adjustedHeight = minHeight + Math.random() * (height - minHeight);
+            }
+            // 为每个障碍物单独随机选择图像类型 (0 for xianren1, 1 for xianren2_1)
+            const imageType = Math.floor(Math.random() * 2);
+            const obstacle = {
+                x: currentX,
+                y: this.canvas.height - adjustedHeight,
+                width: width,
+                height: adjustedHeight,
+                speed: this.gameSpeed,
+                isPartOfMultiple: true,
+                groupId: groupId,
+                imageType: imageType
+            };
+            this.obstacles.push(obstacle);
+            // 更新下一个障碍物的位置
+            currentX += width + gapBetweenObstacles;
         }
     }
     updateObstacles() {
