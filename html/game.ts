@@ -19,7 +19,7 @@ class DinoGame {
     private dinoHeight: number = 60;
     private dinoJumping: boolean = false;
     private jumpVelocity: number = 0;
-    private gravity: number = 0.6;  // 进一步降低重力以增加滞空时间
+    private gravity: number = 0.4;  // 降低重力值，让下降更慢
     private groundY: number = 440; // 相应调整
     private obstacles: IObstacle[] = [];
     private score: number = 0;
@@ -144,7 +144,7 @@ class DinoGame {
     public jump(): void {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -10; // 调整跳跃初速度，增加滞空时间
+            this.jumpVelocity = -8; // 减小跳跃初速度，让上升更慢
         }
     }
 
@@ -180,20 +180,16 @@ class DinoGame {
             }
         }
         
-        // 按照1:1:1的比例生成单、双、三重障碍物
+        // 按照65%单个障碍物，35%双重障碍物的比例生成
         const obstacleType = Math.random();
-        const singleProbability = 1/3;
-        const doubleProbability = 2/3;
+        const singleProbability = 0.65;  // 按照规范调整比例
         
         if (obstacleType < singleProbability) {
             // 生成单个障碍物
             this.generateSingleObstacle();
-        } else if (obstacleType < doubleProbability) {
+        } else {
             // 生成双重障碍物
             this.generateMultipleObstacles(2);
-        } else {
-            // 生成三重障碍物
-            this.generateMultipleObstacles(3);
         }
     }
     
@@ -287,12 +283,12 @@ class DinoGame {
     }
 
     private checkCollisions(): void {
-        // 计算恐龙碰撞箱，减小碰撞箱尺寸使游戏更容易
+        // 计算恐龙碰撞箱，进一步减小碰撞箱尺寸使游戏更容易
         const dinoRect = {
-            x: this.dinoX + 5,        // 左侧缩小5像素
-            y: this.dinoY + 10,       // 顶部缩小10像素
-            width: this.dinoWidth - 10,   // 宽度减少10像素 (原来是30-10=20，现在是40-10=30)
-            height: this.dinoHeight - 15  // 高度减少15像素
+            x: this.dinoX + 10,        // 左侧缩小更多像素
+            y: this.dinoY + 15,       // 顶部缩小更多像素
+            width: this.dinoWidth - 20,   // 宽度进一步减少 (40-20=20)
+            height: this.dinoHeight - 25  // 高度进一步减少 (60-25=35)
         };
 
         // 创建一个包含所有多重障碍物组的映射
@@ -313,12 +309,12 @@ class DinoGame {
             // 跳过多重障碍物，稍后一起处理
             if (obstacle.isPartOfMultiple) continue;
 
-            // 计算障碍物碰撞箱，减小碰撞箱尺寸使游戏更容易
+            // 计算障碍物碰撞箱，进一步减小碰撞箱尺寸使游戏更容易
             const obstacleRect = {
-                x: obstacle.x + 3,        // 左侧缩小3像素
-                y: obstacle.y + 5,        // 顶部缩小5像素
-                width: obstacle.width - 6,  // 宽度减少6像素
-                height: obstacle.height - 8 // 高度减少8像素
+                x: obstacle.x + 6,        // 左侧缩小更多像素
+                y: obstacle.y + 10,        // 顶部缩小更多像素
+                width: obstacle.width - 12,  // 宽度进一步减少
+                height: obstacle.height - 16 // 高度进一步减少
             };
 
             if (
@@ -339,12 +335,12 @@ class DinoGame {
             const topmost = Math.min(...group.map(obs => obs.y));
             const bottommost = Math.max(...group.map(obs => obs.y + obs.height));
 
-            // 计算组合障碍物碰撞箱，减小碰撞箱体积
+            // 计算组合障碍物碰撞箱，进一步减小碰撞箱体积
             const combinedObstacleRect = {
-                x: leftmost + 5,        // 左侧缩小更多像素
-                y: topmost + 7,         // 顶部缩小更多像素
-                width: rightmost - leftmost - 10,  // 宽度减少更多像素
-                height: bottommost - topmost - 12  // 高度减少更多像素
+                x: leftmost + 8,        // 左侧缩小更多像素
+                y: topmost + 12,         // 顶部缩小更多像素
+                width: rightmost - leftmost - 16,  // 宽度减少更多像素
+                height: bottommost - topmost - 20  // 高度减少更多像素
             };
 
             if (
