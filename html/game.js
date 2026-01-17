@@ -139,16 +139,21 @@ class DinoGame {
                 return; // 如果最近的障碍物距离不够，不生成新障碍物
             }
         }
-        // 按照65%单个障碍物，35%双重障碍物的比例生成
+        // 按照等概率生成单个、双重和三重障碍物
         const obstacleType = Math.random();
-        const singleProbability = 0.65; // 按照规范调整比例
+        const singleProbability = 1 / 3; // 约33.33%
+        const doubleProbability = 2 / 3; // 约66.66%
         if (obstacleType < singleProbability) {
             // 生成单个障碍物
             this.generateSingleObstacle();
         }
-        else {
+        else if (obstacleType < doubleProbability) {
             // 生成双重障碍物
             this.generateMultipleObstacles(2);
+        }
+        else {
+            // 生成三重障碍物
+            this.generateMultipleObstacles(3);
         }
     }
     generateSingleObstacle() {
@@ -224,8 +229,8 @@ class DinoGame {
                 this.scoreElement.textContent = this.score.toString();
             }
         }
-        // 优化游戏加速曲线，使难度提升更平缓
-        this.gameSpeed = 5 + Math.floor(this.score / 100);
+        // 加快游戏速度提升，每得50分增加1的速度（原来是每100分）
+        this.gameSpeed = 5 + Math.floor(this.score / 50);
     }
     checkCollisions() {
         // 计算恐龙碰撞箱，进一步减小碰撞箱尺寸使游戏更容易
