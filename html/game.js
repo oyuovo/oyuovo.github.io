@@ -2,13 +2,13 @@
 class DinoGame {
     constructor() {
         this.dinoX = 50;
-        this.dinoY = 440;
-        this.dinoWidth = 40; // 增加恐龙的显示宽度
-        this.dinoHeight = 60;
+        this.dinoY = 450; // 调整初始y坐标，因为高度变小了
+        this.dinoWidth = 40;
+        this.dinoHeight = 50; // 将恐龙高度从60改为50，使其更矮
         this.dinoJumping = false;
         this.jumpVelocity = 0;
-        this.gravity = 0.4; // 降低重力值，让下降更慢
-        this.groundY = 440; // 相应调整
+        this.gravity = 0.6; // 增加重力值，让跳跃和下落更自然
+        this.groundY = 450; // 相应调整地面位置，与新高度匹配
         this.obstacles = [];
         this.score = 0;
         this.gameSpeed = 5;
@@ -107,7 +107,7 @@ class DinoGame {
     jump() {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -8; // 减小跳跃初速度，让上升更慢
+            this.jumpVelocity = -10; // 增加跳跃初速度，使跳跃更高但速度更自然
         }
     }
     updateDino() {
@@ -236,9 +236,9 @@ class DinoGame {
         // 计算恐龙碰撞箱，进一步减小碰撞箱尺寸使游戏更容易
         const dinoRect = {
             x: this.dinoX + 10, // 左侧缩小更多像素
-            y: this.dinoY + 15, // 顶部缩小更多像素
+            y: this.dinoY + 10, // 由于高度变小，相应调整顶部
             width: this.dinoWidth - 20, // 宽度进一步减少 (40-20=20)
-            height: this.dinoHeight - 25 // 高度进一步减少 (60-25=35)
+            height: this.dinoHeight - 20 // 高度进一步减少 (50-20=30)
         };
         // 创建一个包含所有多重障碍物组的映射
         const multiObstacleGroups = new Map();
@@ -299,7 +299,7 @@ class DinoGame {
     restart() {
         this.obstacles = [];
         this.score = 0;
-        this.dinoY = this.groundY;
+        this.dinoY = this.groundY; // 确保重启时恐龙位置正确
         this.dinoJumping = false;
         this.gameSpeed = 5;
         this.gameRunning = true;
@@ -316,7 +316,8 @@ class DinoGame {
                 frameIndex = 0;
             }
             this.ctx.drawImage(this.dinoImgs[frameIndex], this.dinoX, this.dinoY, this.dinoWidth, // 使用新的宽度
-            this.dinoHeight);
+            this.dinoHeight // 使用新的高度
+            );
         }
     }
     drawObstacles() {
