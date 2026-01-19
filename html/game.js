@@ -305,6 +305,8 @@ class DinoGame {
         this.gameRunning = true;
         this.gameOverElement.style.display = 'none';
         this.scoreElement.textContent = '0';
+        // 添加以下行，让重新开始按钮失去焦点，避免空格键触发按钮点击
+        this.restartBtn.blur();
     }
     drawDino() {
         // 绘制小恐龙图像，根据当前帧绘制对应图片
