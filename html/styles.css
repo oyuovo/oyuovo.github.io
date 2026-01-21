@@ -5,13 +5,20 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f7f7f7;
+    background-image: url('bgrandom8.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     font-family: Arial, sans-serif;
 }
 
 .game-container {
     text-align: center;
     position: relative;
+    background-color: rgba(255, 255, 255, 0.9); /* 白色半透明背景，确保游戏内容清晰可见 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* 添加轻微阴影以增强对比度 */
 }
 
 #gameCanvas {
@@ -77,6 +84,7 @@ body {
     
     .game-container {
         padding: 10px;
+        background-color: rgba(255, 255, 255, 0.9); /* 移动端同样保持白色半透明背景 */
     }
     
     #gameCanvas {
@@ -102,31 +110,7 @@ body {
     }
     
     #restartBtn {
-        padding: 20px 40px;
-        font-size: 20px;
-        margin-top: 15px;
-        min-width: 150px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .score {
-        font-size: 20px;
-    }
-    
-    .game-over {
-        font-size: 24px;
-        width: 100%;
-    }
-    
-    #restartBtn {
-        padding: 18px 30px;
-        font-size: 18px;
-        min-width: 130px;
-    }
-    
-    .instructions p {
+        padding: 12px 24px;
         font-size: 16px;
-        line-height: 1.4;
     }
 }
