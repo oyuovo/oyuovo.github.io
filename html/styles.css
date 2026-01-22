@@ -16,13 +16,13 @@ body {
     text-align: center;
     position: relative;
     background-color: rgba(255, 255, 255, 0.9); /* 白色半透明背景，确保游戏内容清晰可见 */
-    padding: 20px;
+    padding: 40px; /* 放大两倍 */
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* 添加轻微阴影以增强对比度 */
 }
 
 #gameCanvas {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc; /* 放大边框 */
     background-color: #f7f7f7;
     display: block;
     margin: 0 auto;
@@ -31,8 +31,8 @@ body {
 }
 
 .score {
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: 40px; /* 放大两倍 */
+    margin-bottom: 20px; /* 放大两倍 */
     display: inline-block;
 }
 
@@ -41,33 +41,33 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 36px;
+    font-size: 72px; /* 放大两倍 */
     color: #ff0000;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 4px 4px 8px rgba(0,0,0,0.5); /* 放大阴影效果 */
 }
 
 .instructions {
-    margin-top: 20px;
+    margin-top: 40px; /* 放大两倍 */
     text-align: center;
 }
 
 .instructions p {
-    margin: 10px 0;
-    font-size: 16px;
+    margin: 20px 0; /* 放大两倍 */
+    font-size: 32px; /* 放大两倍 */
     line-height: 1.5;
 }
 
 #restartBtn {
-    padding: 15px 30px; /* 增大按钮尺寸便于触摸 */
-    font-size: 18px;
+    padding: 30px 60px; /* 放大两倍 */
+    font-size: 36px; /* 放大两倍 */
     cursor: pointer;
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
-    margin-top: 10px;
-    min-width: 120px;
+    margin-top: 20px; /* 放大两倍 */
+    min-width: 240px; /* 放大两倍 */
 }
 
 #restartBtn:hover {

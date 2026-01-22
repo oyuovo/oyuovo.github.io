@@ -1,17 +1,17 @@
 "use strict";
 class DinoGame {
     constructor() {
-        this.dinoX = 50;
-        this.dinoY = 450; // 调整初始y坐标，因为高度变小了
-        this.dinoWidth = 40;
-        this.dinoHeight = 50; // 将恐龙高度从60改为50，使其更矮
+        this.dinoX = 100; // 放大后调整恐龙位置
+        this.dinoY = 900; // 放大后调整初始y坐标
+        this.dinoWidth = 80; // 放大两倍
+        this.dinoHeight = 100; // 放大两倍
         this.dinoJumping = false;
         this.jumpVelocity = 0;
-        this.gravity = 0.6; // 增加重力值，让跳跃和下落更自然
-        this.groundY = 450; // 相应调整地面位置，与新高度匹配
+        this.gravity = 0.6; // 保持重力值不变
+        this.groundY = 900; // 放大后调整地面位置
         this.obstacles = [];
         this.score = 0;
-        this.gameSpeed = 5;
+        this.gameSpeed = 10; // 放大后适当调整游戏速度
         this.gameRunning = true;
         this.frameCount = 0;
         // 修改图像资源，支持恐龙动画
@@ -107,7 +107,7 @@ class DinoGame {
     jump() {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -10; // 增加跳跃初速度，使跳跃更高但速度更自然
+            this.jumpVelocity = -20; // 放大后调整跳跃初速度
         }
     }
     updateDino() {
@@ -132,7 +132,7 @@ class DinoGame {
     }
     generateObstacle() {
         // 检查最近的障碍物距离，避免过密生成
-        const minDistance = 350; // 调整最小距离以平衡游戏难度
+        const minDistance = 700; // 放大后调整最小距离
         // 如果最近有障碍物，不生成新障碍物
         for (const obstacle of this.obstacles) {
             if (obstacle.x > this.canvas.width - minDistance) {
@@ -164,10 +164,10 @@ class DinoGame {
             const selectedImage = new Image();
             selectedImage.src = imageType === 1 ? 'xianren2_1.png' : 'xianren1.png';
             // 随机生成障碍物高度，限制在合理范围内
-            const minHeight = 25;
-            const maxHeight = 50; // 限制最大高度，确保可以跳跃通过
+            const minHeight = 50; // 放大后调整最小高度
+            const maxHeight = 100; // 放大后调整最大高度
             const height = minHeight + Math.random() * (maxHeight - minHeight);
-            const width = 25 + Math.random() * 15;
+            const width = 50 + Math.random() * 30; // 放大后调整宽度
             // 将障碍物放在画布底部
             this.obstacles.push({
                 x: this.canvas.width,
@@ -182,10 +182,10 @@ class DinoGame {
     }
     generateMultipleObstacles(numObstacles) {
         const gapBetweenObstacles = 0; // 设置为0，让障碍物完全贴在一起
-        const minHeight = 25;
-        const maxHeight = 45; // 降低最大高度，更容易通过
+        const minHeight = 50; // 放大后调整最小高度
+        const maxHeight = 90; // 放大后调整最大高度
         const height = minHeight + Math.random() * (maxHeight - minHeight);
-        const width = 20 + Math.random() * 10; // 障碍物宽度
+        const width = 40 + Math.random() * 20; // 放大后调整宽度
         // 生成第一个障碍物
         let currentX = this.canvas.width;
         const groupId = Date.now(); // 使用时间戳作为唯一ID
@@ -230,15 +230,15 @@ class DinoGame {
             }
         }
         // 加快游戏速度提升，每得50分增加1的速度（原来是每100分）
-        this.gameSpeed = 5 + Math.floor(this.score / 50);
+        this.gameSpeed = 10 + Math.floor(this.score / 50); // 放大后调整基础速度
     }
     checkCollisions() {
-        // 计算恐龙碰撞箱，进一步减小碰撞箱尺寸使游戏更容易
+        // 计算恐龙碰撞箱，相应放大碰撞箱尺寸
         const dinoRect = {
-            x: this.dinoX + 10, // 左侧缩小更多像素
-            y: this.dinoY + 10, // 由于高度变小，相应调整顶部
-            width: this.dinoWidth - 20, // 宽度进一步减少 (40-20=20)
-            height: this.dinoHeight - 20 // 高度进一步减少 (50-20=30)
+            x: this.dinoX + 20, // 左侧缩小更多像素，按比例放大
+            y: this.dinoY + 20, // 由于高度变小，相应调整顶部，按比例放大
+            width: this.dinoWidth - 40, // 宽度相应放大 (80-40=40)
+            height: this.dinoHeight - 40 // 高度相应放大 (100-40=60)
         };
         // 创建一个包含所有多重障碍物组的映射
         const multiObstacleGroups = new Map();
@@ -256,12 +256,12 @@ class DinoGame {
             // 跳过多重障碍物，稍后一起处理
             if (obstacle.isPartOfMultiple)
                 continue;
-            // 计算障碍物碰撞箱，进一步减小碰撞箱尺寸使游戏更容易
+            // 计算障碍物碰撞箱，相应放大碰撞箱尺寸
             const obstacleRect = {
-                x: obstacle.x + 6, // 左侧缩小更多像素
-                y: obstacle.y + 10, // 顶部缩小更多像素
-                width: obstacle.width - 12, // 宽度进一步减少
-                height: obstacle.height - 16 // 高度进一步减少
+                x: obstacle.x + 12, // 左侧缩小更多像素，按比例放大
+                y: obstacle.y + 20, // 顶部缩小更多像素，按比例放大
+                width: obstacle.width - 24, // 宽度相应放大
+                height: obstacle.height - 32 // 高度相应放大
             };
             if (dinoRect.x < obstacleRect.x + obstacleRect.width &&
                 dinoRect.x + dinoRect.width > obstacleRect.x &&
@@ -277,12 +277,12 @@ class DinoGame {
             const rightmost = Math.max(...group.map(obs => obs.x + obs.width));
             const topmost = Math.min(...group.map(obs => obs.y));
             const bottommost = Math.max(...group.map(obs => obs.y + obs.height));
-            // 计算组合障碍物碰撞箱，进一步减小碰撞箱体积
+            // 计算组合障碍物碰撞箱，相应放大碰撞箱尺寸
             const combinedObstacleRect = {
-                x: leftmost + 8, // 左侧缩小更多像素
-                y: topmost + 12, // 顶部缩小更多像素
-                width: rightmost - leftmost - 16, // 宽度减少更多像素
-                height: bottommost - topmost - 20 // 高度减少更多像素
+                x: leftmost + 16, // 左侧缩小更多像素，按比例放大
+                y: topmost + 24, // 顶部缩小更多像素，按比例放大
+                width: rightmost - leftmost - 32, // 宽度减少更多像素，按比例放大
+                height: bottommost - topmost - 40 // 高度减少更多像素，按比例放大
             };
             if (dinoRect.x < combinedObstacleRect.x + combinedObstacleRect.width &&
                 dinoRect.x + dinoRect.width > combinedObstacleRect.x &&
@@ -301,7 +301,7 @@ class DinoGame {
         this.score = 0;
         this.dinoY = this.groundY; // 确保重启时恐龙位置正确
         this.dinoJumping = false;
-        this.gameSpeed = 5;
+        this.gameSpeed = 10; // 放大后调整基础速度
         this.gameRunning = true;
         this.gameOverElement.style.display = 'none';
         this.scoreElement.textContent = '0';
