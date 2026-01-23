@@ -1,39 +1,35 @@
 "use strict";
 class DinoGame {
     constructor() {
-        this.dinoX = 100; // 放大后调整恐龙位置
-        this.dinoY = 900; // 放大后调整初始y坐标
-        this.dinoWidth = 80; // 放大两倍
-        this.dinoHeight = 100; // 放大两倍
+        this.dinoX = 100;
+        this.dinoY = 900;
+        this.dinoWidth = 80;
+        this.dinoHeight = 100;
         this.dinoJumping = false;
         this.jumpVelocity = 0;
-        this.gravity = 0.6; // 保持重力值不变
-        this.groundY = 900; // 放大后调整地面位置
+        this.gravity = 0.6;
+        this.groundY = 900;
         this.obstacles = [];
         this.score = 0;
-        this.gameSpeed = 10; // 放大后适当调整游戏速度
+        this.gameSpeed = 10;
         this.gameRunning = true;
         this.frameCount = 0;
-        // 修改图像资源，支持恐龙动画
-        this.dinoImgs = []; // 存储所有恐龙帧的数组
-        this.currentDinoFrame = 0; // 当前显示的帧
-        this.frameCounter = 0; // 动画帧计数器
-        this.totalFrames = 5; // 总共有多少帧动画
-        this.framesPerAnimation = 10; // 每个动画帧持续多少帧
+        this.dinoImgs = [];
+        this.currentDinoFrame = 0;
+        this.frameCounter = 0;
+        this.totalFrames = 5;
+        this.framesPerAnimation = 10;
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.scoreElement = document.getElementById('score');
         this.gameOverElement = document.getElementById('gameOver');
         this.restartBtn = document.getElementById('restartBtn');
-        // 初始化恐龙动画帧
         this.loadDinoFrames();
         this.obstacleImg = new Image();
         this.obstacleImg.src = 'xianren1.png';
-        // 加载第二个障碍物图像
         this.obstacleImg2 = new Image();
         this.obstacleImg2.src = 'xianren2_1.png';
         this.bindEvents();
-        // 等待图像加载完成后再开始游戏循环
         Promise.all([
             this.allImagesLoaded(this.dinoImgs),
             this.imageLoaded(this.obstacleImg),
@@ -43,7 +39,6 @@ class DinoGame {
         });
     }
     loadDinoFrames() {
-        // 定义恐龙动画帧的图片路径
         const dinoFramePaths = [
             'konglong a.png',
             'konglong a_1.png',
@@ -51,7 +46,6 @@ class DinoGame {
             'konglong a_3.png',
             'konglong a_4.png'
         ];
-        // 为每张图片创建Image对象并存储
         for (const path of dinoFramePaths) {
             const img = new Image();
             img.src = path;
@@ -77,19 +71,16 @@ class DinoGame {
             if ((e.code === 'Space' || e.key === 'ArrowUp') && !this.dinoJumping) {
                 this.jump();
             }
-            // 如果游戏结束，按回车重新开始（按照规范使用回车键）
             if (e.code === 'Enter' && !this.gameRunning) {
                 this.restart();
             }
         });
-        // 添加移动端触摸事件支持
         this.canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // 阻止默认的触摸行为
+            e.preventDefault();
             if (!this.dinoJumping) {
                 this.jump();
             }
         });
-        // 添加移动端点击事件支持（对于非触摸设备的备用方案）
         this.canvas.addEventListener('click', (e) => {
             if (!this.dinoJumping) {
                 this.jump();
@@ -98,7 +89,6 @@ class DinoGame {
         this.restartBtn.addEventListener('click', () => {
             this.restart();
         });
-        // 添加对重启按钮的触摸支持
         this.restartBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.restart();
@@ -107,22 +97,20 @@ class DinoGame {
     jump() {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -20; // 放大后调整跳跃初速度
+            this.jumpVelocity = -20;
         }
     }
     updateDino() {
         if (this.dinoJumping) {
             this.dinoY += this.jumpVelocity;
             this.jumpVelocity += this.gravity;
-            // 检查是否落地
             if (this.dinoY >= this.groundY) {
                 this.dinoY = this.groundY;
                 this.dinoJumping = false;
-                this.jumpVelocity = 0; // 重置速度
+                this.jumpVelocity = 0;
             }
         }
         else {
-            // 更新动画帧，只在恐龙没有跳跃时播放动画
             this.frameCounter++;
             if (this.frameCounter >= this.framesPerAnimation) {
                 this.currentDinoFrame = (this.currentDinoFrame + 1) % this.totalFrames;
@@ -131,47 +119,36 @@ class DinoGame {
         }
     }
     generateObstacle() {
-        // 检查最近的障碍物距离，避免过密生成
-        const minDistance = 700; // 放大后调整最小距离
-        // 如果最近有障碍物，不生成新障碍物
+        const minDistance = 700;
         for (const obstacle of this.obstacles) {
             if (obstacle.x > this.canvas.width - minDistance) {
-                return; // 如果最近的障碍物距离不够，不生成新障碍物
+                return;
             }
         }
-        // 按照等概率生成单个、双重和三重障碍物
         const obstacleType = Math.random();
-        const singleProbability = 1 / 3; // 约33.33%
-        const doubleProbability = 2 / 3; // 约66.66%
+        const singleProbability = 1 / 3;
+        const doubleProbability = 2 / 3;
         if (obstacleType < singleProbability) {
-            // 生成单个障碍物
             this.generateSingleObstacle();
         }
         else if (obstacleType < doubleProbability) {
-            // 生成双重障碍物
             this.generateMultipleObstacles(2);
         }
         else {
-            // 生成三重障碍物
             this.generateMultipleObstacles(3);
         }
     }
     generateSingleObstacle() {
-        const shouldGenerate = Math.random() < 0.04; // 单个障碍物生成概率
+        const shouldGenerate = Math.random() < 0.04;
         if (shouldGenerate) {
-            // 对于单个障碍物，随机选择图像
             const imageType = Math.floor(Math.random() * 2);
-            const selectedImage = new Image();
-            selectedImage.src = imageType === 1 ? 'xianren2_1.png' : 'xianren1.png';
-            // 随机生成障碍物高度，限制在合理范围内
-            const minHeight = 50; // 放大后调整最小高度
-            const maxHeight = 100; // 放大后调整最大高度
+            const minHeight = 50;
+            const maxHeight = 100;
             const height = minHeight + Math.random() * (maxHeight - minHeight);
-            const width = 50 + Math.random() * 30; // 放大后调整宽度
-            // 将障碍物放在画布底部
+            const width = 50 + Math.random() * 30;
             this.obstacles.push({
                 x: this.canvas.width,
-                y: this.canvas.height - height, // 放在画布底部
+                y: this.canvas.height - height,
                 width: width,
                 height: height,
                 speed: this.gameSpeed,
@@ -181,26 +158,21 @@ class DinoGame {
         }
     }
     generateMultipleObstacles(numObstacles) {
-        const gapBetweenObstacles = 0; // 设置为0，让障碍物完全贴在一起
-        const minHeight = 50; // 放大后调整最小高度
-        const maxHeight = 90; // 放大后调整最大高度
+        const gapBetweenObstacles = 0;
+        const minHeight = 50;
+        const maxHeight = 90;
         const height = minHeight + Math.random() * (maxHeight - minHeight);
-        const width = 40 + Math.random() * 20; // 放大后调整宽度
-        // 生成第一个障碍物
+        const width = 40 + Math.random() * 20;
         let currentX = this.canvas.width;
-        const groupId = Date.now(); // 使用时间戳作为唯一ID
+        const groupId = Date.now();
         for (let i = 0; i < numObstacles; i++) {
-            // 为了让多个障碍物略有不同，稍微调整高度
             let adjustedHeight = height;
             if (i === 0) {
-                // 第一个障碍物高度稍微随机变化
                 adjustedHeight = minHeight + Math.random() * (height - minHeight);
             }
             else {
-                // 后续障碍物也可能有略微不同的高度
                 adjustedHeight = minHeight + Math.random() * (height - minHeight);
             }
-            // 为每个障碍物单独随机选择图像类型 (0 for xianren1, 1 for xianren2_1)
             const imageType = Math.floor(Math.random() * 2);
             const obstacle = {
                 x: currentX,
@@ -213,36 +185,29 @@ class DinoGame {
                 imageType: imageType
             };
             this.obstacles.push(obstacle);
-            // 更新下一个障碍物的位置
             currentX += width + gapBetweenObstacles;
         }
     }
     updateObstacles() {
-        // 更新障碍物位置
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
             const obstacle = this.obstacles[i];
             obstacle.x -= obstacle.speed;
-            // 移除屏幕外的障碍物并增加分数
             if (obstacle.x + obstacle.width < 0) {
                 this.obstacles.splice(i, 1);
                 this.score += 1;
                 this.scoreElement.textContent = this.score.toString();
             }
         }
-        // 加快游戏速度提升，每得50分增加1的速度（原来是每100分）
-        this.gameSpeed = 10 + Math.floor(this.score / 50); // 放大后调整基础速度
+        this.gameSpeed = 10 + Math.floor(this.score / 50);
     }
     checkCollisions() {
-        // 计算恐龙碰撞箱，相应放大碰撞箱尺寸
         const dinoRect = {
-            x: this.dinoX + 20, // 左侧缩小更多像素，按比例放大
-            y: this.dinoY + 20, // 由于高度变小，相应调整顶部，按比例放大
-            width: this.dinoWidth - 40, // 宽度相应放大 (80-40=40)
-            height: this.dinoHeight - 40 // 高度相应放大 (100-40=60)
+            x: this.dinoX + 20,
+            y: this.dinoY + 20,
+            width: this.dinoWidth - 40,
+            height: this.dinoHeight - 40
         };
-        // 创建一个包含所有多重障碍物组的映射
         const multiObstacleGroups = new Map();
-        // 按组整理多重障碍物
         for (const obstacle of this.obstacles) {
             if (obstacle.isPartOfMultiple && obstacle.groupId) {
                 if (!multiObstacleGroups.has(obstacle.groupId)) {
@@ -251,17 +216,14 @@ class DinoGame {
                 multiObstacleGroups.get(obstacle.groupId).push(obstacle);
             }
         }
-        // 检查单个障碍物碰撞
         for (const obstacle of this.obstacles) {
-            // 跳过多重障碍物，稍后一起处理
             if (obstacle.isPartOfMultiple)
                 continue;
-            // 计算障碍物碰撞箱，相应放大碰撞箱尺寸
             const obstacleRect = {
-                x: obstacle.x + 12, // 左侧缩小更多像素，按比例放大
-                y: obstacle.y + 20, // 顶部缩小更多像素，按比例放大
-                width: obstacle.width - 24, // 宽度相应放大
-                height: obstacle.height - 32 // 高度相应放大
+                x: obstacle.x + 12,
+                y: obstacle.y + 20,
+                width: obstacle.width - 24,
+                height: obstacle.height - 32
             };
             if (dinoRect.x < obstacleRect.x + obstacleRect.width &&
                 dinoRect.x + dinoRect.width > obstacleRect.x &&
@@ -270,19 +232,16 @@ class DinoGame {
                 this.gameOver();
             }
         }
-        // 检查多重障碍物组碰撞（作为一个整体）
         for (const [groupId, group] of multiObstacleGroups) {
-            // 计算整个组的边界框
             const leftmost = Math.min(...group.map(obs => obs.x));
             const rightmost = Math.max(...group.map(obs => obs.x + obs.width));
             const topmost = Math.min(...group.map(obs => obs.y));
             const bottommost = Math.max(...group.map(obs => obs.y + obs.height));
-            // 计算组合障碍物碰撞箱，相应放大碰撞箱尺寸
             const combinedObstacleRect = {
-                x: leftmost + 16, // 左侧缩小更多像素，按比例放大
-                y: topmost + 24, // 顶部缩小更多像素，按比例放大
-                width: rightmost - leftmost - 32, // 宽度减少更多像素，按比例放大
-                height: bottommost - topmost - 40 // 高度减少更多像素，按比例放大
+                x: leftmost + 16,
+                y: topmost + 24,
+                width: rightmost - leftmost - 32,
+                height: bottommost - topmost - 40
             };
             if (dinoRect.x < combinedObstacleRect.x + combinedObstacleRect.width &&
                 dinoRect.x + dinoRect.width > combinedObstacleRect.x &&
@@ -299,60 +258,46 @@ class DinoGame {
     restart() {
         this.obstacles = [];
         this.score = 0;
-        this.dinoY = this.groundY; // 确保重启时恐龙位置正确
+        this.dinoY = this.groundY;
         this.dinoJumping = false;
-        this.gameSpeed = 10; // 放大后调整基础速度
+        this.gameSpeed = 10;
         this.gameRunning = true;
         this.gameOverElement.style.display = 'none';
         this.scoreElement.textContent = '0';
-        // 添加以下行，让重新开始按钮失去焦点，避免空格键触发按钮点击
         this.restartBtn.blur();
     }
     drawDino() {
-        // 绘制小恐龙图像，根据当前帧绘制对应图片
         if (this.dinoImgs.length > 0) {
-            // 根据跳跃状态决定是否播放动画
             let frameIndex = this.currentDinoFrame;
-            // 如果在跳跃，使用第一帧（站立姿态）
             if (this.dinoJumping) {
                 frameIndex = 0;
             }
-            this.ctx.drawImage(this.dinoImgs[frameIndex], this.dinoX, this.dinoY, this.dinoWidth, // 使用新的宽度
-            this.dinoHeight // 使用新的高度
-            );
+            this.ctx.drawImage(this.dinoImgs[frameIndex], this.dinoX, this.dinoY, this.dinoWidth, this.dinoHeight);
         }
     }
     drawObstacles() {
         for (const obstacle of this.obstacles) {
-            // 根据imageType选择要绘制的图像
             if (obstacle.imageType === 1) {
-                // 使用xianren2_1图像
                 this.ctx.drawImage(this.obstacleImg2, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             }
             else {
-                // 使用xianren1图像 (默认值)
                 this.ctx.drawImage(this.obstacleImg, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             }
         }
     }
     drawGround() {
-        // 地面不再绘制，此方法为空
     }
     gameLoop() {
-        // 清除画布
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.gameRunning) {
             this.frameCount++;
-            // 更新游戏对象
             this.updateDino();
             this.generateObstacle();
             this.updateObstacles();
             this.checkCollisions();
         }
-        // 绘制游戏元素（不再绘制地面）
         this.drawDino();
         this.drawObstacles();
-        // 继续游戏循环
         requestAnimationFrame(() => this.gameLoop());
     }
 }
