@@ -97,7 +97,7 @@ class DinoGame {
     jump() {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -20;
+            this.jumpVelocity = -14;
         }
     }
     updateDino() {

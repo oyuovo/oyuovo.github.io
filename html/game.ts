@@ -133,7 +133,7 @@ class DinoGame {
     public jump(): void {
         if (!this.dinoJumping) {
             this.dinoJumping = true;
-            this.jumpVelocity = -20;
+            this.jumpVelocity = -14;
         }
     }
 
